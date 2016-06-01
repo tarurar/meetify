@@ -1,0 +1,25 @@
+{
+  "name": "meetify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "lite": "lite-server",
+    "typings": "typings",
+    "postinstall": "typings install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^2.1.0",
+    "lite-server": "^2.2.0",
+    "mongoose": "^4.4.19"
+  },
+  "devDependencies": {
+    "typings": "^1.0.4"
+  }
+}
