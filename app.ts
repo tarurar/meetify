@@ -1,48 +1,39 @@
 import * as http from 'http';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
+import * as meetingModel from './model/meeting';
+import * as noteModel from './model/note';
+import * as userModel from './model/user';
+
 var config = require('./config/config');
 
-var server = [config.dbserver.url, config.dbserver.port].join(':');
-var uristring = path.join(server, config.dbserver.db);
+var dbServer = [config.dbserver.url, config.dbserver.port].join(':');
+var uristring = path.join(dbServer, config.dbserver.db);
 
 mongoose.connect(uristring, (err, res) => {
   if (err) {
     console.log('Error connecting to database');
   } else {
     console.log('Successfully connected to database');
-
-    /*var userSchema = new mongoose.Schema({
-      name: {
-        first: String,
-        last: { type: String, trim: true }
-      },
-      age: { type: Number, min: 0 }
-    });
-
-    var uSchema = new mongoose.Schema({
-      name: String
-    });
-
-    var people = mongoose.model('people', uSchema);
-    var u1 = new people({
-      name: 'Bond'
-    });*/
     
-    var dogSchema = new mongoose.Schema({
-      name: String
+    let newMeeting = new meetingModel.Meetings({
+      agenda: [
+        {short: 'note1', text: 'note1 text'},
+        {short: 'note2', text: 'note2 text'}
+      ],
+      created: Date.now(),
+      createdBy: {name: 'Andrei'},
+      modified: Date.now(),
+      started: Date.now(),
+      closed: Date.now()
     });
     
-    var dog = mongoose.model('dogs', dogSchema);
-    var d1 = new dog({
-      name: 'Lucky'
-    });
-
-    d1.save((err, res) => {
+    newMeeting.save<meetingModel.Meeting>((err, res) => {
       if (err) {
-        console.log('Error on save');
+        console.log('Error in newMeeting.save');
       } else {
-        console.log('Successfully saved');
+        console.log('new meting created at:', res.created);
+        mongoose.connection.close();
       }
     });
   }
