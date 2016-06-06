@@ -4,13 +4,38 @@ import * as path from 'path';
 import * as meetingModel from './model/meeting';
 import * as noteModel from './model/note';
 import * as userModel from './model/user';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 var config = require('./config/config');
 
-var dbServer = [config.dbserver.url, config.dbserver.port].join(':');
-var uristring = path.join(dbServer, config.dbserver.db);
+var dbServerUrl = [config.dbserver.host, config.dbserver.port].join(':');
+var dbUrl = path.join(dbServerUrl, config.dbserver.db);
 
-mongoose.connect(uristring, (err, res) => {
+
+var app = express();
+mongoose.connect(dbUrl, (err) => {
+  if (err) throw err;
+
+  app.listen(config.app.port);
+  console.log('Listening on port', config.app.port);
+});
+
+var apiRouter = express.Router();
+apiRouter.use(bodyParser.json());
+
+apiRouter.route('/')
+  .get((req, res, next) => {
+    meetingModel.Meetings.find(null, (err, data) => {
+      res.send(data);
+    })
+  });
+
+app
+  .use(express.static(path.join(__dirname, 'public')))
+  .use('/api', apiRouter);
+
+/*mongoose.connect(uristring, (err, res) => {
   if (err) {
     console.log('Error connecting to database');
   } else {
@@ -37,4 +62,4 @@ mongoose.connect(uristring, (err, res) => {
       }
     });
   }
-})
+})*/
