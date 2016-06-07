@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as meetingModel from './model/meeting';
 import * as noteModel from './model/note';
 import * as userModel from './model/user';
+import * as workspaceModel from './model/workspace';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import {apiRouter} from './api/router';
@@ -18,6 +19,22 @@ mongoose.connect(dbUrl, (err) => {
 
   app.listen(config.app.port);
   console.log('Listening on port', config.app.port);
+
+  /*workspaceModel.Workspaces.findById('57572bb1c2bc61c10e9672ba', (err, data) => {
+    if (err) throw err;
+    console.log('ws name:', data.name);
+    console.log('ws admin:', data.administrator);
+  })
+
+  workspaceModel.Workspaces.findById('57572bb1c2bc61c10e9672ba')
+    .populate('administrator')
+    .populate('secondaryAdministrator')
+    .exec((err, res) => {
+      if (err) throw err;
+
+      console.log(res.administrator.name);
+    })
+    */
 });
 
 app
