@@ -10,10 +10,10 @@ export class Workspace implements intf.WorkspaceDataContract {
 
 export var WorkspaceSchema = new mongoose.Schema({
   name: String,
-  administrator: userModel.userSchema,
-  secondaryAdministrator: userModel.userSchema
+  administrator: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+  secondaryAdministrator: { type: mongoose.Schema.Types.ObjectId, ref: 'users' }
 })
 
-export interface WorkspaceDocument extends Workspace, mongoose.Document {}
+export interface WorkspaceDocument extends Workspace, mongoose.Document { }
 
 export var Workspaces = mongoose.model<WorkspaceDocument>('workspaces', WorkspaceSchema);
