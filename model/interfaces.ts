@@ -7,6 +7,7 @@ export interface MeetingDataContract {
   modified: Date;
   started: Date;
   closed: Date;
+  workspace: WorkspaceDataContract;
 }
 
 export interface NoteDataContract {
@@ -16,4 +17,10 @@ export interface NoteDataContract {
 
 export interface UserDataContract {
   name: string;
+}
+
+export interface WorkspaceDataContract {
+  name: string;
+  administrator: UserDataContract;
+  secondaryAdministrator: UserDataContract;
 }

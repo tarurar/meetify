@@ -9,7 +9,8 @@ export class Meeting implements intf.MeetingDataContract {
   createdBy: intf.UserDataContract;
   modified: Date;
   started: Date;
-  closed: Date; 
+  closed: Date;
+  workspace: intf.WorkspaceDataContract;
 }
 
 export var meetingSchema = new mongoose.Schema({
@@ -18,11 +19,12 @@ export var meetingSchema = new mongoose.Schema({
   createdBy: userModel.userSchema,
   modified: Date,
   started: Date,
-  closed: Date
+  closed: Date,
+  workspace: { type: mongoose.Schema.Types.ObjectId, required: true }
 })
 
 export interface MeetingDocument extends Meeting, mongoose.Document {
-  
+
 }
 
 export var Meetings = mongoose.model<MeetingDocument>('meetings', meetingSchema);

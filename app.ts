@@ -6,12 +6,11 @@ import * as noteModel from './model/note';
 import * as userModel from './model/user';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-
+import {apiRouter} from './api/router';
 var config = require('./config/config');
 
 var dbServerUrl = [config.dbserver.host, config.dbserver.port].join(':');
 var dbUrl = path.join(dbServerUrl, config.dbserver.db);
-
 
 var app = express();
 mongoose.connect(dbUrl, (err) => {
@@ -20,16 +19,6 @@ mongoose.connect(dbUrl, (err) => {
   app.listen(config.app.port);
   console.log('Listening on port', config.app.port);
 });
-
-var apiRouter = express.Router();
-apiRouter.use(bodyParser.json());
-
-apiRouter.route('/')
-  .get((req, res, next) => {
-    meetingModel.Meetings.find(null, (err, data) => {
-      res.send(data);
-    })
-  });
 
 app
   .use(express.static(path.join(__dirname, 'public')))
